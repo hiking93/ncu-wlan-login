@@ -76,11 +76,13 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 
 						@Override
 						public void onSuccess() {
+							mDebugTextView.setVisibility(View.VISIBLE);
 							mDebugTextView.setText("Login successful.");
 						}
 
 						@Override
 						public void onFail(String reason) {
+							mDebugTextView.setVisibility(View.VISIBLE);
 							mDebugTextView.setText(reason);
 						}
 					});
@@ -89,11 +91,13 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 
 				@Override
 				public void onSuccess() {
+					mDebugTextView.setVisibility(View.VISIBLE);
 					mDebugTextView.setText("Logout successful.");
 				}
 
 				@Override
 				public void onFail(String reason) {
+					mDebugTextView.setVisibility(View.VISIBLE);
 					mDebugTextView.setText(reason);
 				}
 			});

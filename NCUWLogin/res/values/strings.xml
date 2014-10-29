@@ -2,5 +2,11 @@
 <resources>
 
     <string name="app_name">NCU WLAN Login</string>
+    <string name="app_name_launcher">NCU WLAN</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="save_and_login">Save &amp; Login</string>
+    <string name="logout">Logout</string>
+    <string name="ncuwl_login">NCUWL Login</string>
 
 </resources>
