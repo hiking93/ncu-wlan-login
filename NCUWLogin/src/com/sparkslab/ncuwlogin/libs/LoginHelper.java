@@ -31,6 +31,14 @@ public class LoginHelper {
 
 	public static void login(final Context context, String user,
 			String password, final GeneralCallback callback) {
+		String ssid = Utils.getCurrentSsid(context);
+		if (ssid == null || !ssid.equals("NCUWL")) {
+			if (callback != null) {
+				callback.onFail("You're not connected to NCUWL.");
+			}
+			return;
+		}
+
 		RequestParams params = new RequestParams();
 		params.put("user", user);
 		params.put("password", password);
@@ -39,7 +47,7 @@ public class LoginHelper {
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		mBuilder = new NotificationCompat.Builder(context);
 		mBuilder.setContentTitle(context.getString(R.string.app_name))
-				.setContentText("Log in to NCUWL...")
+				.setContentText("Login to NCUWL...")
 				.setSmallIcon(R.drawable.ic_stat_login).setProgress(0, 0, true)
 				.setOngoing(true);
 		mNotificationManager.notify(Constant.NOTIFICATION_LOGIN_ID,
@@ -69,7 +77,7 @@ public class LoginHelper {
 								context.getString(R.string.app_name))
 								.setContentText(resultString)
 								.setSmallIcon(R.drawable.ic_stat_login)
-								.setProgress(0, 0, false).setOngoing(false);
+								.setProgress(0, 0, false).setOngoing(true);
 						mNotificationManager.notify(
 								Constant.NOTIFICATION_LOGIN_ID,
 								mBuilder.build());
@@ -81,10 +89,13 @@ public class LoginHelper {
 						e.printStackTrace();
 
 						boolean alreadyLoggedIn = false;
-						String resultString = "", resultDetailString = "";
+						String resultString = "", resultDetailString = "Connection problem.";
 
-						for (Header header : headers) {
-							resultDetailString += header.toString() + "\n";
+						if (headers != null) {
+							resultDetailString = "";
+							for (Header header : headers) {
+								resultDetailString += header.toString() + "\n";
+							}
 						}
 
 						if (resultDetailString.contains("Access denied")) {
@@ -98,7 +109,7 @@ public class LoginHelper {
 								context.getString(R.string.app_name))
 								.setContentText(resultString)
 								.setSmallIcon(R.drawable.ic_stat_login)
-								.setProgress(0, 0, false).setOngoing(false);
+								.setProgress(0, 0, false).setOngoing(true);
 						if (alreadyLoggedIn) {
 							if (callback != null) {
 								callback.onFail(resultString);
@@ -121,7 +132,16 @@ public class LoginHelper {
 				});
 	}
 
-	public static void logout(Context context, final GeneralCallback callback) {
+	public static void logout(final Context context,
+			final GeneralCallback callback) {
+		String ssid = Utils.getCurrentSsid(context);
+		if (ssid == null || !ssid.equals("NCUWL")) {
+			if (callback != null) {
+				callback.onFail("You're not connected to NCUWL.");
+			}
+			return;
+		}
+
 		mClient.post(
 				"https://securelogin.arubanetworks.com/cgi-bin/login?cmd=logout",
 				new AsyncHttpResponseHandler() {
@@ -131,6 +151,8 @@ public class LoginHelper {
 							byte[] response) {
 						if (statusCode == 200) {
 							callback.onSuccess();
+							mNotificationManager
+									.cancel(Constant.NOTIFICATION_LOGIN_ID);
 						} else {
 							callback.onFail("Status: " + statusCode);
 						}
@@ -139,8 +161,23 @@ public class LoginHelper {
 					@Override
 					public void onFailure(int statusCode, Header[] headers,
 							byte[] errorResponse, Throwable e) {
-						callback.onFail("Post failed: "
-								+ e.getLocalizedMessage());
+						String resultString = "", resultDetailString = "";
+
+						if (headers != null) {
+							for (Header header : headers) {
+								resultDetailString += header.toString() + "\n";
+							}
+						}
+
+						if (resultDetailString.contains("Access denied")) {
+							resultString = "Already logged out.";
+						} else {
+							resultString = "Failed to logout.";
+						}
+
+						if (callback != null) {
+							callback.onFail(resultString);
+						}
 					}
 				});
 	}

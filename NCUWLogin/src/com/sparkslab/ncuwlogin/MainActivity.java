@@ -94,7 +94,7 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 
 				@Override
 				public void onFail(String reason) {
-					mDebugTextView.setText("Logout failed: " + reason);
+					mDebugTextView.setText(reason);
 				}
 			});
 		}

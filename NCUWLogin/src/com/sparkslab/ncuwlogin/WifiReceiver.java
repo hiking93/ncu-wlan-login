@@ -4,6 +4,7 @@ import com.sparkslab.ncuwlogin.callbacks.Constant;
 import com.sparkslab.ncuwlogin.callbacks.Memory;
 import com.sparkslab.ncuwlogin.libs.LoginHelper;
 
+import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -50,7 +51,9 @@ public class WifiReceiver extends BroadcastReceiver {
 					String infoString = "Wi-Fi disconnected.";
 					Toast.makeText(context, infoString, Toast.LENGTH_SHORT)
 							.show();
-					Log.i("Hiking", infoString);
+					NotificationManager notificationManager = (NotificationManager) context
+							.getSystemService(Context.NOTIFICATION_SERVICE);
+					notificationManager.cancel(Constant.NOTIFICATION_LOGIN_ID);
 				}
 			}
 		}
