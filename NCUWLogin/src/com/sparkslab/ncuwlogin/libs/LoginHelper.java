@@ -38,6 +38,9 @@ public class LoginHelper {
 			String password, final GeneralCallback callback) {
 		String currentSsid = Utils.getCurrentSsid(context);
 		if (currentSsid == null || !currentSsid.equals(expectedSsid)) {
+			if (currentSsid == null) {
+				currentSsid = context.getString(R.string.no_wifi_connection);
+			}
 			if (callback != null) {
 				callback.onFail(String.format(context
 						.getString(R.string.youre_not_connected_to_ssid_ssid),
@@ -154,6 +157,9 @@ public class LoginHelper {
 			final GeneralCallback callback) {
 		String currentSsid = Utils.getCurrentSsid(context);
 		if (currentSsid == null || !currentSsid.equals(expectedSsid)) {
+			if (currentSsid == null) {
+				currentSsid = context.getString(R.string.no_wifi_connection);
+			}
 			if (callback != null) {
 				callback.onFail(String.format(context
 						.getString(R.string.youre_not_connected_to_ssid_ssid),

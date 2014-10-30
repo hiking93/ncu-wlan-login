@@ -23,6 +23,6 @@ public class Utils {
 				ssid = connectionInfo.getSSID();
 			}
 		}
-		return ssid.replace("\"", "");
+		return ssid == null ? ssid : ssid.replace("\"", "");
 	}
 }
