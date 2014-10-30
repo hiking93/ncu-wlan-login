@@ -15,7 +15,7 @@ import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
 
-import com.sparkslab.ncuwlogin.R;
+import com.devandroid.ncuwlogin.R;
 
 public class LoginHelper {
 	private static AsyncHttpClient mClient = init();

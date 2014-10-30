@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.sparkslab.ncuwlogin"
-    android:versionCode="4"
-    android:versionName="2.0" >
+    package="com.devandroid.ncuwlogin"
+    android:versionCode="5"
+    android:versionName="2.0.1" >
 
     <uses-sdk
         android:minSdkVersion="8"
@@ -18,7 +18,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.devandroid.ncuwlogin.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name_launcher" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -27,11 +27,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="AboutActivity"
+            android:name=".AboutActivity"
             android:label="@string/about" >
         </activity>
 
-        <receiver android:name="com.devandroid.ncuwlogin.WifiReceiver" >
+        <receiver android:name=".WifiReceiver" >
             <intent-filter>
                 <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
                 <action android:name="android.net.wifi.WIFI_STATE_CHANGED" />

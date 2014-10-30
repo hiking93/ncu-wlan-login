@@ -4,7 +4,8 @@ import com.devandroid.ncuwlogin.callbacks.Constant;
 import com.devandroid.ncuwlogin.callbacks.GeneralCallback;
 import com.devandroid.ncuwlogin.callbacks.Memory;
 import com.devandroid.ncuwlogin.libs.LoginHelper;
-import com.sparkslab.ncuwlogin.R;
+
+import com.devandroid.ncuwlogin.R;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

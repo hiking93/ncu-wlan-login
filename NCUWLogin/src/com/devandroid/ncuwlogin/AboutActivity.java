@@ -5,7 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.sparkslab.ncuwlogin.R;
+import com.devandroid.ncuwlogin.R;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
