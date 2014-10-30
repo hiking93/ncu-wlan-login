@@ -1,4 +1,4 @@
-package com.sparkslab.ncuwlogin.callbacks;
+package com.devandroid.ncuwlogin.callbacks;
 
 public abstract class GeneralCallback {
 	public abstract void onSuccess();

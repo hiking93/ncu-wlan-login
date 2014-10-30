@@ -1,4 +1,4 @@
-package com.sparkslab.ncuwlogin.callbacks;
+package com.devandroid.ncuwlogin.callbacks;
 
 import android.annotation.SuppressLint;
 import android.content.Context;

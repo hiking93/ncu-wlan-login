@@ -1,4 +1,4 @@
-package com.sparkslab.ncuwlogin.libs;
+package com.devandroid.ncuwlogin.libs;
 
 import android.content.Context;
 import android.net.ConnectivityManager;

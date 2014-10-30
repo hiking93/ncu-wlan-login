@@ -1,9 +1,11 @@
-package com.sparkslab.ncuwlogin;
+package com.devandroid.ncuwlogin;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import com.sparkslab.ncuwlogin.R;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;

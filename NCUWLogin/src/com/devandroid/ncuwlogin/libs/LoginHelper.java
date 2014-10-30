@@ -1,4 +1,4 @@
-package com.sparkslab.ncuwlogin.libs;
+package com.devandroid.ncuwlogin.libs;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -6,16 +6,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
+import com.devandroid.ncuwlogin.MainActivity;
+import com.devandroid.ncuwlogin.callbacks.Constant;
+import com.devandroid.ncuwlogin.callbacks.GeneralCallback;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
 
-import com.sparkslab.ncuwlogin.MainActivity;
 import com.sparkslab.ncuwlogin.R;
-import com.sparkslab.ncuwlogin.callbacks.Constant;
-import com.sparkslab.ncuwlogin.callbacks.GeneralCallback;
 
 public class LoginHelper {
 	private static AsyncHttpClient mClient = init();

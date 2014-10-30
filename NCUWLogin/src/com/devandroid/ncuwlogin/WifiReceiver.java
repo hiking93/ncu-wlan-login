@@ -1,8 +1,9 @@
-package com.sparkslab.ncuwlogin;
+package com.devandroid.ncuwlogin;
 
-import com.sparkslab.ncuwlogin.callbacks.Constant;
-import com.sparkslab.ncuwlogin.callbacks.Memory;
-import com.sparkslab.ncuwlogin.libs.LoginHelper;
+import com.devandroid.ncuwlogin.callbacks.Constant;
+import com.devandroid.ncuwlogin.callbacks.Memory;
+import com.devandroid.ncuwlogin.libs.LoginHelper;
+import com.sparkslab.ncuwlogin.R;
 
 import android.app.NotificationManager;
 import android.content.BroadcastReceiver;
