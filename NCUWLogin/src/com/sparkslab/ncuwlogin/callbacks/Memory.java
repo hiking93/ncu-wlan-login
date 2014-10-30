@@ -1,7 +1,5 @@
 package com.sparkslab.ncuwlogin.callbacks;
 
-import com.google.gson.Gson;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -81,25 +79,6 @@ public class Memory {
 		init(context);
 
 		prefsEditor.putBoolean(key, data);
-		prefsEditor.commit();
-	}
-
-	@SuppressWarnings({ "unchecked", "rawtypes" })
-	public static Object getObject(Context context, String key, Class cls) {
-		init(context);
-
-		Gson gson = new Gson();
-		String json = appSharedPrefs.getString(key, null);
-
-		return gson.fromJson(json, cls);
-	}
-
-	public static void setObject(Context context, String key, Object data) {
-		init(context);
-
-		Gson gson = new Gson();
-		String json = gson.toJson(data);
-		prefsEditor.putString(key, json);
 		prefsEditor.commit();
 	}
 }

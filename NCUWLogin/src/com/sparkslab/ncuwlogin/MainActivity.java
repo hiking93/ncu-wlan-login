@@ -8,6 +8,7 @@ import com.sparkslab.ncuwlogin.libs.LoginHelper;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -60,7 +61,16 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		return super.onOptionsItemSelected(item);
+		int id = item.getItemId();
+		switch (id) {
+		case R.id.about:
+			startActivity(new Intent(this, AboutActivity.class));
+			return true;
+
+		default:
+			return super.onOptionsItemSelected(item);
+		}
+
 	}
 
 	@Override

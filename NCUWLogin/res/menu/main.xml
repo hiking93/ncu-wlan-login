@@ -3,4 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.sparkslab.ncuwlogin.MainActivity" >
 
+    <item
+        android:id="@+id/about"
+        android:title="@string/about">
+    </item>
+
 </menu>
