@@ -8,5 +8,14 @@
     <string name="save_and_login">Save &amp; Login</string>
     <string name="logout">Logout</string>
     <string name="ncuwl_login">NCUWL Login</string>
+    <string name="login_sucessful">Login successful.</string>
+    <string name="logout_sucessful">Logout successful.</string>
+    <string name="connected_to_ssid" formatted="false">Connected to %s.</string>
+    <string name="youre_not_connected_to_ssid:ssid" formatted="false">You\'re not connected to %s: %s</string>
+    <string name="login_to_ssid" formatted="false">Login to %s&#8230;.</string>
+    <string name="already_logged_in">Already logged in.</string>
+    <string name="failed_to_login">Failed to login.</string>
+    <string name="already_logged_out">Already logged out.</string>
+    <string name="failed_to_logout">Failed to logout.</string>
 
 </resources>

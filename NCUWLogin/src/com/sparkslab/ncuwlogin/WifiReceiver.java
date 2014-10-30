@@ -15,6 +15,8 @@ import android.widget.Toast;
 
 public class WifiReceiver extends BroadcastReceiver {
 
+	private static String expectedSsid = Constant.EXPECTED_SSID;
+
 	@Override
 	public void onReceive(final Context context, Intent intent) {
 		String action = intent.getAction();
@@ -29,12 +31,13 @@ public class WifiReceiver extends BroadcastReceiver {
 			if (state == NetworkInfo.State.CONNECTED) {
 				String ssid = manager.getConnectionInfo().getSSID()
 						.replace("\"", "");
-				if (ssid.equals("NCUWL")) {
+				if (ssid.equals(expectedSsid)) {
 					// connected
-					String infoString = "Connected to: " + ssid;
+					String infoString = String.format(
+							context.getString(R.string.connected_to_ssid),
+							expectedSsid);
 					Toast.makeText(context, infoString, Toast.LENGTH_SHORT)
 							.show();
-					Log.i("Hiking", infoString);
 					String user = Memory.getString(context,
 							Constant.MEMORY_KEY_USER, null);
 					String password = Memory.getString(context,
@@ -49,8 +52,7 @@ public class WifiReceiver extends BroadcastReceiver {
 				if (manager.isWifiEnabled()) {
 					// disconnected
 					String infoString = "Wi-Fi disconnected.";
-					Toast.makeText(context, infoString, Toast.LENGTH_SHORT)
-							.show();
+					Log.i(Constant.TAG, infoString);
 					NotificationManager notificationManager = (NotificationManager) context
 							.getSystemService(Context.NOTIFICATION_SERVICE);
 					notificationManager.cancel(Constant.NOTIFICATION_LOGIN_ID);

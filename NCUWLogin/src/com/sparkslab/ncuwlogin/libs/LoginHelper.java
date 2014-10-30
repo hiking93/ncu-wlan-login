@@ -1,7 +1,9 @@
 package com.sparkslab.ncuwlogin.libs;
 
 import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.app.NotificationCompat;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -10,6 +12,7 @@ import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
 
+import com.sparkslab.ncuwlogin.MainActivity;
 import com.sparkslab.ncuwlogin.R;
 import com.sparkslab.ncuwlogin.callbacks.Constant;
 import com.sparkslab.ncuwlogin.callbacks.GeneralCallback;
@@ -19,6 +22,8 @@ public class LoginHelper {
 
 	private static NotificationManager mNotificationManager;
 	private static NotificationCompat.Builder mBuilder;
+
+	private static String expectedSsid = Constant.EXPECTED_SSID;
 
 	private static AsyncHttpClient init() {
 		AsyncHttpClient client = new AsyncHttpClient();
@@ -31,10 +36,12 @@ public class LoginHelper {
 
 	public static void login(final Context context, String user,
 			String password, final GeneralCallback callback) {
-		String ssid = Utils.getCurrentSsid(context);
-		if (ssid == null || !ssid.equals("NCUWL")) {
+		String currentSsid = Utils.getCurrentSsid(context);
+		if (currentSsid == null || !currentSsid.equals(expectedSsid)) {
 			if (callback != null) {
-				callback.onFail("You're not connected to NCUWL.");
+				callback.onFail(String.format(context
+						.getString(R.string.youre_not_connected_to_ssid_ssid),
+						expectedSsid, currentSsid));
 			}
 			return;
 		}
@@ -47,7 +54,10 @@ public class LoginHelper {
 				.getSystemService(Context.NOTIFICATION_SERVICE);
 		mBuilder = new NotificationCompat.Builder(context);
 		mBuilder.setContentTitle(context.getString(R.string.app_name))
-				.setContentText("Login to NCUWL...")
+				.setContentText(
+						String.format(
+								context.getString(R.string.login_to_ssid),
+								expectedSsid))
 				.setSmallIcon(R.drawable.ic_stat_login).setProgress(0, 0, true)
 				.setOngoing(true);
 		mNotificationManager.notify(Constant.NOTIFICATION_LOGIN_ID,
@@ -63,7 +73,8 @@ public class LoginHelper {
 
 						String resultString = "";
 						if (statusCode == 200) {
-							resultString = "Logged in.";
+							resultString = context
+									.getString(R.string.login_sucessful);
 							if (callback != null) {
 								callback.onSuccess();
 							}
@@ -73,10 +84,13 @@ public class LoginHelper {
 								callback.onFail(resultString);
 							}
 						}
+
 						mBuilder.setContentTitle(
 								context.getString(R.string.app_name))
 								.setContentText(resultString)
 								.setSmallIcon(R.drawable.ic_stat_login)
+								.setContentIntent(
+										getDefaultPendingIntent(context))
 								.setProgress(0, 0, false).setOngoing(true);
 						mNotificationManager.notify(
 								Constant.NOTIFICATION_LOGIN_ID,
@@ -99,16 +113,20 @@ public class LoginHelper {
 						}
 
 						if (resultDetailString.contains("Access denied")) {
-							resultString = "Already logged in.";
+							resultString = context
+									.getString(R.string.already_logged_in);
 							alreadyLoggedIn = true;
 						} else {
-							resultString = "Failed to login.";
+							resultString = context
+									.getString(R.string.failed_to_login);
 						}
 
 						mBuilder.setContentTitle(
 								context.getString(R.string.app_name))
 								.setContentText(resultString)
 								.setSmallIcon(R.drawable.ic_stat_login)
+								.setContentIntent(
+										getDefaultPendingIntent(context))
 								.setProgress(0, 0, false).setOngoing(true);
 						if (alreadyLoggedIn) {
 							if (callback != null) {
@@ -134,10 +152,12 @@ public class LoginHelper {
 
 	public static void logout(final Context context,
 			final GeneralCallback callback) {
-		String ssid = Utils.getCurrentSsid(context);
-		if (ssid == null || !ssid.equals("NCUWL")) {
+		String currentSsid = Utils.getCurrentSsid(context);
+		if (currentSsid == null || !currentSsid.equals(expectedSsid)) {
 			if (callback != null) {
-				callback.onFail("You're not connected to NCUWL.");
+				callback.onFail(String.format(context
+						.getString(R.string.youre_not_connected_to_ssid_ssid),
+						expectedSsid, currentSsid));
 			}
 			return;
 		}
@@ -170,9 +190,11 @@ public class LoginHelper {
 						}
 
 						if (resultDetailString.contains("Access denied")) {
-							resultString = "Already logged out.";
+							resultString = context.getText(
+									R.string.already_logged_out).toString();
 						} else {
-							resultString = "Failed to logout.";
+							resultString = context.getText(
+									R.string.failed_to_logout).toString();
 						}
 
 						if (callback != null) {
@@ -180,5 +202,10 @@ public class LoginHelper {
 						}
 					}
 				});
+	}
+
+	private static PendingIntent getDefaultPendingIntent(Context context) {
+		Intent notificationIntent = new Intent(context, MainActivity.class);
+		return PendingIntent.getActivity(context, 0, notificationIntent, 0);
 	}
 }

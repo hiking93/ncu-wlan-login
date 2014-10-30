@@ -2,6 +2,9 @@ package com.sparkslab.ncuwlogin.callbacks;
 
 public class Constant {
 
+	public static final String EXPECTED_SSID = "NCUWL";
+	public static final String TAG = "Hiking";
+
 	// Notification IDs
 	public static final int NOTIFICATION_LOGIN_ID = 100;
 

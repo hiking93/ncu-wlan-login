@@ -76,14 +76,12 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 
 						@Override
 						public void onSuccess() {
-							mDebugTextView.setVisibility(View.VISIBLE);
-							mDebugTextView.setText("Login successful.");
+							showMessage(R.string.login_sucessful);
 						}
 
 						@Override
 						public void onFail(String reason) {
-							mDebugTextView.setVisibility(View.VISIBLE);
-							mDebugTextView.setText(reason);
+							showMessage(reason);
 						}
 					});
 		} else if (v == mLogoutButton) {
@@ -91,16 +89,24 @@ public class MainActivity extends ActionBarActivity implements OnClickListener {
 
 				@Override
 				public void onSuccess() {
-					mDebugTextView.setVisibility(View.VISIBLE);
-					mDebugTextView.setText("Logout successful.");
+					showMessage(R.string.logout_sucessful);
 				}
 
 				@Override
 				public void onFail(String reason) {
-					mDebugTextView.setVisibility(View.VISIBLE);
-					mDebugTextView.setText(reason);
+					showMessage(reason);
 				}
 			});
 		}
+	}
+
+	private void showMessage(int messageRes) {
+		mDebugTextView.setVisibility(View.VISIBLE);
+		mDebugTextView.setText(getText(messageRes));
+	}
+
+	private void showMessage(CharSequence message) {
+		mDebugTextView.setVisibility(View.VISIBLE);
+		mDebugTextView.setText(message);
 	}
 }
