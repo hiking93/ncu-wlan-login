@@ -22,6 +22,8 @@
 	<string name="usage_policy">使用條款</string>
 	<string name="no_wifi_connection">沒有 Wi-Fi 連線。</string>
 	<string name="open_source_licenses">開放原始碼授權</string>
-	<string name="open_source_info_content">本軟體由中央大學資工系104級鄭行健開發，使用 Apache 2.0 授權。更多資訊及原始碼詳見：https://github.com/hiking93/NCU-WLAN-Login</string>
+	<string name="open_source_info_content">本軟體由使用 Apache 2.0
+		授權。更多資訊及原始碼詳見：https://github.com/hiking93/NCU-WLAN-Login</string>
+	<string name="ime_submit">登入</string>
 
 </resources>
