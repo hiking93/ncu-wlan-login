@@ -1,8 +1,0 @@
-/Users/hiking/Documents/Program Design/Git/ncu-wlan-login/ncu-wlan-login/app/build/intermediates/classes/debug
-/Users/hiking/Documents/Program Design/Git/ncu-wlan-login/ncu-wlan-login/app/build/intermediates/pre-dexed/debug/support-annotations-22.2.0-bf2b613df8903c3248645073b9692a3777cf4d29.jar
-/Users/hiking/Documents/Program Design/Git/ncu-wlan-login/ncu-wlan-login/app/build/intermediates/pre-dexed/debug/butterknife-6.1.0-372f6d4f5e21a246271be6fb9d8e90d298a3f72d.jar
-/Users/hiking/Documents/Program Design/Git/ncu-wlan-login/ncu-wlan-login/app/build/intermediates/pre-dexed/debug/android-async-http-1.4.7-7c2477244d1678f18bd20a158b308ae24c79bf90.jar
-/Users/hiking/Documents/Program Design/Git/ncu-wlan-login/ncu-wlan-login/app/build/intermediates/pre-dexed/debug/classes-dd1f357534eebda110509e4e4ab715ae8892baa6.jar
-/Users/hiking/Documents/Program Design/Git/ncu-wlan-login/ncu-wlan-login/app/build/intermediates/pre-dexed/debug/internal_impl-22.2.0-e789daa92de28a4e14c38ecb6191eb140b4caad8.jar
-/Users/hiking/Documents/Program Design/Git/ncu-wlan-login/ncu-wlan-login/app/build/intermediates/pre-dexed/debug/classes-160a60b7245eb023154dccad782b4cd80f475c88.jar
-/Users/hiking/Documents/Program Design/Git/ncu-wlan-login/ncu-wlan-login/app/build/intermediates/pre-dexed/debug/classes-9e3accbe30fddfcee63b13fb90de0ea886c1fb2b.jar
