@@ -7,7 +7,6 @@
     <string name="password">Password</string>
     <string name="save_and_login">Save &amp; Login</string>
     <string name="logout">Logout</string>
-    <string name="ncuwl_login">NCUWL Login</string>
     <string name="login_sucessful">Login successful.</string>
     <string name="logout_sucessful">Logout successful.</string>
     <string name="connected_to_ssid" formatted="false">Connected to %s.</string>
@@ -25,5 +24,8 @@
     <string name="open_source_info_content">This app is an open-source project, licensed under
 	    the Apache License, Version 2.0.\n\nView descriptions and source code here: https://github.com/hiking93/NCU-WLAN-Login</string>
 	<string name="ime_submit">Login</string>
+
+    <string name="ncuwl_login">NCUWL Login</string>
+    <string name="ncucsie_login">NCUCSIE Login</string>
 
 </resources>

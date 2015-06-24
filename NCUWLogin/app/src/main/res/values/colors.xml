@@ -5,4 +5,16 @@
     <color name="primary_dark">#303f9f</color>
     <color name="accent">#5c6bc0</color>
 
+    <color name="black">#000000</color>
+    <color name="black_dividers">#1f000000</color>
+    <color name="black_text_disabled">#42000000</color>
+    <color name="black_text_secondary">#8a000000</color>
+    <color name="black_text">#de000000</color>
+
+    <color name="white">#ffffff</color>
+    <color name="white_dividers">#1fffffff</color>
+    <color name="white_text_disabled">#4dffffff</color>
+    <color name="white_text_secondary">#b3ffffff</color>
+    <color name="white_text">#ffffff</color>
+
 </resources>

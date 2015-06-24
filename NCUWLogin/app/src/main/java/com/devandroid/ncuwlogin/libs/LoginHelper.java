@@ -4,6 +4,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
 
 import com.devandroid.ncuwlogin.MainActivity;
@@ -17,6 +18,11 @@ import com.loopj.android.http.RequestParams;
 import org.apache.http.Header;
 
 public class LoginHelper {
+
+	public enum HotspotType {
+		UNKNOWN, NCUWLAN, NCUCSIE
+	}
+
 	private static AsyncHttpClient mClient = init();
 
 	private static NotificationManager mNotificationManager;
@@ -30,10 +36,28 @@ public class LoginHelper {
 		return client;
 	}
 
-	public static void login(final Context context, String user, String password,
+	public static HotspotType getHotspotType(@Nullable String ssid) {
+		if (ssid != null) {
+			switch (ssid) {
+				case "NCUWL":
+				case "TANetRoaming":
+					return HotspotType.NCUWLAN;
+				case "NCU-CSIE":
+					return HotspotType.NCUCSIE;
+				default:
+					return HotspotType.UNKNOWN;
+			}
+		} else {
+			return null;
+		}
+	}
+
+	public static void login(final Context context, String url, RequestParams requestParams,
 	                         final GeneralCallback callback) {
 		String currentSsid = Utils.getCurrentSsid(context);
-		if (currentSsid == null || !Utils.isExpectedSsid(currentSsid)) {
+		HotspotType hotspotType = getHotspotType(currentSsid);
+
+		if (currentSsid == null || hotspotType == HotspotType.UNKNOWN) {
 			if (currentSsid == null) {
 				currentSsid = context.getString(R.string.no_wifi_connection);
 			}
@@ -44,10 +68,6 @@ public class LoginHelper {
 			return;
 		}
 
-		RequestParams params = new RequestParams();
-		params.put("user", user);
-		params.put("password", password);
-
 		mNotificationManager =
 				(NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 		mBuilder = new NotificationCompat.Builder(context);
@@ -56,81 +76,80 @@ public class LoginHelper {
 				.setSmallIcon(R.drawable.ic_stat_login).setProgress(0, 0, true).setOngoing(true);
 		mNotificationManager.notify(Constant.NOTIFICATION_LOGIN_ID, mBuilder.build());
 
-		mClient.post(context, "https://securelogin.arubanetworks.com/auth/index.html/u", params,
-				new AsyncHttpResponseHandler() {
+		mClient.post(context, url, requestParams, new AsyncHttpResponseHandler() {
 
-					@Override
-					public void onSuccess(int statusCode, Header[] headers, byte[] response) {
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, byte[] response) {
 
-						String resultString;
-						if (statusCode == 200) {
-							resultString = context.getString(R.string.login_sucessful);
-							if (callback != null) {
-								callback.onSuccess();
-							}
-						} else {
-							resultString = "Status: " + statusCode;
-							if (callback != null) {
-								callback.onFail(resultString);
-							}
-						}
-
-						mBuilder.setContentTitle(context.getString(R.string.app_name))
-								.setContentText(resultString).setSmallIcon(R.drawable.ic_stat_login)
-								.setContentIntent(getDefaultPendingIntent(context))
-								.setProgress(0, 0, false).setOngoing(true);
-						mNotificationManager
-								.notify(Constant.NOTIFICATION_LOGIN_ID, mBuilder.build());
+				String resultString;
+				if (statusCode == 200) {
+					resultString = context.getString(R.string.login_sucessful);
+					if (callback != null) {
+						callback.onSuccess();
 					}
-
-					@Override
-					public void onFailure(int statusCode, Header[] headers, byte[] errorResponse,
-					                      Throwable e) {
-						e.printStackTrace();
-
-						boolean alreadyLoggedIn = false;
-						String resultString, resultDetailString = "Connection problem.";
-
-						if (headers != null) {
-							resultDetailString = "";
-							for (Header header : headers) {
-								resultDetailString += header.toString() + "\n";
-							}
-						}
-
-						if (resultDetailString.contains("Access denied")) {
-							resultString = context.getString(R.string.already_logged_in);
-							alreadyLoggedIn = true;
-						} else {
-							resultString = context.getString(R.string.failed_to_login);
-						}
-
-						mBuilder.setContentTitle(context.getString(R.string.app_name))
-								.setContentText(resultString).setSmallIcon(R.drawable.ic_stat_login)
-								.setContentIntent(getDefaultPendingIntent(context))
-								.setProgress(0, 0, false).setOngoing(true);
-						if (alreadyLoggedIn) {
-							if (callback != null) {
-								callback.onFail(resultString);
-							}
-						} else {
-							if (callback != null) {
-								callback.onFail(resultString + "\n" + resultDetailString);
-							}
-							// Show error details in the expanded notification
-							mBuilder.setStyle(new NotificationCompat.BigTextStyle()
-									.bigText(resultString + "\n" + resultDetailString));
-						}
-
-						mNotificationManager
-								.notify(Constant.NOTIFICATION_LOGIN_ID, mBuilder.build());
+				} else {
+					resultString = "Status: " + statusCode;
+					if (callback != null) {
+						callback.onFail(resultString);
 					}
-				});
+				}
+
+				mBuilder.setContentTitle(context.getString(R.string.app_name))
+						.setContentText(resultString).setSmallIcon(R.drawable.ic_stat_login)
+						.setContentIntent(getDefaultPendingIntent(context)).setProgress(0, 0, false)
+						.setOngoing(true);
+				mNotificationManager.notify(Constant.NOTIFICATION_LOGIN_ID, mBuilder.build());
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers, byte[] errorResponse,
+			                      Throwable e) {
+				e.printStackTrace();
+
+				boolean alreadyLoggedIn = false;
+				String resultString, resultDetailString = "Connection problem.";
+
+				if (headers != null) {
+					resultDetailString = "";
+					for (Header header : headers) {
+						resultDetailString += header.toString() + "\n";
+					}
+				}
+
+				if (resultDetailString.contains("Access denied")) {
+					resultString = context.getString(R.string.already_logged_in);
+					alreadyLoggedIn = true;
+				} else {
+					resultString = context.getString(R.string.failed_to_login);
+				}
+
+				mBuilder.setContentTitle(context.getString(R.string.app_name))
+						.setContentText(resultString).setSmallIcon(R.drawable.ic_stat_login)
+						.setContentIntent(getDefaultPendingIntent(context)).setProgress(0, 0, false)
+						.setOngoing(true);
+				if (alreadyLoggedIn) {
+					if (callback != null) {
+						callback.onFail(resultString);
+					}
+				} else {
+					if (callback != null) {
+						callback.onFail(resultString + "\n" + resultDetailString);
+					}
+					// Show error details in the expanded notification
+					mBuilder.setStyle(new NotificationCompat.BigTextStyle()
+							.bigText(resultString + "\n" + resultDetailString));
+				}
+
+				mNotificationManager.notify(Constant.NOTIFICATION_LOGIN_ID, mBuilder.build());
+			}
+		});
 	}
 
 	public static void logout(final Context context, final GeneralCallback callback) {
 		String currentSsid = Utils.getCurrentSsid(context);
-		if (currentSsid == null || !Utils.isExpectedSsid(currentSsid)) {
+		HotspotType hotspotType = getHotspotType(currentSsid);
+
+		if (currentSsid == null || hotspotType == HotspotType.UNKNOWN) {
 			if (currentSsid == null) {
 				currentSsid = context.getString(R.string.no_wifi_connection);
 			}

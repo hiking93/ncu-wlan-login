@@ -6,8 +6,6 @@ import android.net.NetworkInfo;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 
-import com.devandroid.ncuwlogin.callbacks.Constant;
-
 public class Utils {
 
 	public static String getCurrentSsid(Context context) {
@@ -25,14 +23,5 @@ public class Utils {
 			}
 		}
 		return ssid == null ? ssid : ssid.replace("\"", "");
-	}
-
-	public static boolean isExpectedSsid(String ssid) {
-		for (String expectedSsid : Constant.EXPECTED_SSIDS) {
-			if (expectedSsid.equals(ssid)) {
-				return true;
-			}
-		}
-		return false;
 	}
 }

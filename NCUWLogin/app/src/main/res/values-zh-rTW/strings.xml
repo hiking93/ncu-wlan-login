@@ -7,7 +7,6 @@
 	<string name="password">密碼</string>
 	<string name="save_and_login">儲存並登入</string>
 	<string name="logout">登出</string>
-	<string name="ncuwl_login">中央大學無線網路登入</string>
 	<string name="login_sucessful">登入成功。</string>
 	<string name="logout_sucessful">登出成功。</string>
 	<string name="connected_to_ssid" formatted="false">已連接到 %s。</string>
@@ -25,5 +24,8 @@
 	<string name="open_source_info_content">本軟體由使用 Apache 2.0
 		授權。更多資訊及原始碼詳見：https://github.com/hiking93/NCU-WLAN-Login</string>
 	<string name="ime_submit">登入</string>
+
+	<string name="ncuwl_login">中央大學無線網路登入</string>
+	<string name="ncucsie_login">中央資工無線網路登入</string>
 
 </resources>

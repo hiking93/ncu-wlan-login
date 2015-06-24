@@ -2,64 +2,58 @@ package com.devandroid.ncuwlogin;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.view.KeyEvent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 
 import com.devandroid.ncuwlogin.callbacks.Constant;
-import com.devandroid.ncuwlogin.callbacks.GeneralCallback;
-import com.devandroid.ncuwlogin.callbacks.Memory;
-import com.devandroid.ncuwlogin.libs.LoginHelper;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
+public class MainActivity extends AppCompatActivity {
 
-public class MainActivity extends AppCompatActivity implements OnClickListener {
-
-	@InjectView(R.id.button_login)
-	Button mLoginButton;
-
-	@InjectView(R.id.button_logout)
-	Button mLogoutButton;
-
-	@InjectView(R.id.editText_user)
-	EditText mUsernameEditText;
-
-	@InjectView(R.id.editText_password)
-	EditText mPasswordEditText;
-
-	@InjectView(R.id.textView_debug)
-	TextView mDebugTextView;
+	private ViewPager mViewPager;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 
-		ButterKnife.inject(this);
+		findViews();
 		setUpViews();
 	}
 
+	private void findViews() {
+		mViewPager = (ViewPager) findViewById(R.id.pager_main);
+	}
+
 	private void setUpViews() {
-		mLoginButton.setOnClickListener(this);
-		mLogoutButton.setOnClickListener(this);
-		mUsernameEditText.setText(Memory.getString(this, Constant.MEMORY_KEY_USER, ""));
-		mPasswordEditText.setText(Memory.getString(this, Constant.MEMORY_KEY_PASSWORD, ""));
-		mPasswordEditText.setImeActionLabel(getText(R.string.ime_submit), KeyEvent.KEYCODE_ENTER);
-		mPasswordEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+		MainPagerAdapter mQLPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
+		mViewPager.setAdapter(mQLPagerAdapter);
+
+		TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs_main);
+		tabLayout.setTabMode(TabLayout.MODE_FIXED);
+		tabLayout.setTabsFromPagerAdapter(mQLPagerAdapter);
+		tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
 			@Override
-			public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-				saveAndLogin();
-				return false;
+			public void onTabSelected(TabLayout.Tab tab) {
+				mViewPager.setCurrentItem(tab.getPosition());
+			}
+
+			@Override
+			public void onTabUnselected(TabLayout.Tab tab) {
+			}
+
+			@Override
+			public void onTabReselected(TabLayout.Tab tab) {
 			}
 		});
+		mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
 	}
 
 	@Override
@@ -82,52 +76,44 @@ public class MainActivity extends AppCompatActivity implements OnClickListener {
 
 	}
 
-	@Override
-	public void onClick(View v) {
-		if (v == mLoginButton) {
-			saveAndLogin();
-		} else if (v == mLogoutButton) {
-			LoginHelper.logout(this, new GeneralCallback() {
+	private class MainPagerAdapter extends FragmentPagerAdapter {
 
-				@Override
-				public void onSuccess() {
-					showMessage(R.string.logout_sucessful);
-				}
-
-				@Override
-				public void onFail(String reason) {
-					showMessage(reason);
-				}
-			});
+		public MainPagerAdapter(FragmentManager fragmentManager) {
+			super(fragmentManager);
 		}
-	}
 
-	private void saveAndLogin() {
-		Memory.setString(this, Constant.MEMORY_KEY_USER, mUsernameEditText.getText().toString());
-		Memory.setString(this, Constant.MEMORY_KEY_PASSWORD,
-				mPasswordEditText.getText().toString());
-		LoginHelper.login(this, mUsernameEditText.getText().toString(),
-				mPasswordEditText.getText().toString(), new GeneralCallback() {
+		public String getFragmentTag(int position) {
+			return "android:switcher:" + R.id.pager_main + ":" + position;
+		}
 
-					@Override
-					public void onSuccess() {
-						showMessage(R.string.login_sucessful);
-					}
+		@Override
+		public Fragment getItem(int position) {
+			switch (position) {
+				case 0:
+					return NCUWLFragment.newInstance();
+				case 1:
+					return NCUCSIEFragment.newInstance();
+				default:
+					Log.e(Constant.TAG, "Unexpected ViewPager item position: " + position);
+					return new Fragment();
+			}
+		}
 
-					@Override
-					public void onFail(String reason) {
-						showMessage(reason);
-					}
-				});
-	}
+		@Override
+		public int getCount() {
+			return 2;
+		}
 
-	private void showMessage(int messageRes) {
-		mDebugTextView.setVisibility(View.VISIBLE);
-		mDebugTextView.setText(getText(messageRes));
-	}
-
-	private void showMessage(CharSequence message) {
-		mDebugTextView.setVisibility(View.VISIBLE);
-		mDebugTextView.setText(message);
+		@Override
+		public CharSequence getPageTitle(int position) {
+			switch (position) {
+				case 0:
+					return "NCUWL";
+				case 1:
+					return "NCU-CSIE";
+				default:
+					return "?";
+			}
+		}
 	}
 }

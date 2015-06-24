@@ -10,9 +10,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.devandroid.ncuwlogin.callbacks.Constant;
-import com.devandroid.ncuwlogin.callbacks.Memory;
 import com.devandroid.ncuwlogin.libs.LoginHelper;
-import com.devandroid.ncuwlogin.libs.Utils;
 
 public class WifiReceiver extends BroadcastReceiver {
 
@@ -27,16 +25,21 @@ public class WifiReceiver extends BroadcastReceiver {
 
 			if (state == NetworkInfo.State.CONNECTED) {
 				String ssid = manager.getConnectionInfo().getSSID().replace("\"", "");
-				if (Utils.isExpectedSsid(ssid)) {
-					// connected
+				LoginHelper.HotspotType hotspotType = LoginHelper.getHotspotType(ssid);
+
+				if (hotspotType != LoginHelper.HotspotType.UNKNOWN) {
 					String infoString =
 							String.format(context.getString(R.string.connected_to_ssid), ssid);
 					Toast.makeText(context, infoString, Toast.LENGTH_SHORT).show();
-					String user = Memory.getString(context, Constant.MEMORY_KEY_USER, null);
-					String password = Memory.getString(context, Constant.MEMORY_KEY_PASSWORD, null);
-					if (user != null && password != null) {
-						LoginHelper.login(context, user, password, null);
-					}
+				}
+
+				switch (hotspotType) {
+					case NCUWLAN:
+						NCUWLFragment.login(context, null);
+						break;
+					case NCUCSIE:
+						NCUCSIEFragment.login(context, null);
+						break;
 				}
 			}
 

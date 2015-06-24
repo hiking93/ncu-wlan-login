@@ -30,6 +30,7 @@
     <string formatted="false" name="login_to_ssid">正在登入 %s….</string>
     <string name="logout">登出</string>
     <string name="logout_sucessful">登出成功。</string>
+    <string name="ncucsie_login">中央資工無線網路登入</string>
     <string name="ncuwl_login">中央大學無線網路登入</string>
     <string name="no_wifi_connection">沒有 Wi-Fi 連線。</string>
     <string name="open_source_info">開放原始碼資訊</string>

@@ -1,5 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- From: file:/Users/hiking/Documents/Program%20Design/Git/NCU-WLAN-Login/NCUWLogin/app/build/intermediates/exploded-aar/com.android.support/design/22.2.0/res/values-v21/values-v21.xml -->
+    <eat-comment/>
+    <dimen name="navigation_padding_top_default">24dp</dimen>
     <!-- From: file:/Users/hiking/Documents/Program%20Design/Git/NCU-WLAN-Login/NCUWLogin/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values-v21/values-v21.xml -->
     <eat-comment/>
     <style name="Base.TextAppearance.AppCompat" parent="android:TextAppearance.Material"/>

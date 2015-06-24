@@ -1,71 +1,29 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-            xmlns:tools="http://schemas.android.com/tools"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
 
-	<LinearLayout
+	<android.support.design.widget.TabLayout
+		android:id="@+id/tabs_main"
 		android:layout_width="match_parent"
-		android:layout_height="wrap_content"
-		android:animateLayoutChanges="true"
-		android:layout_gravity="center"
-		android:gravity="center"
-		android:orientation="vertical"
-		android:paddingBottom="@dimen/activity_vertical_margin"
-		android:paddingLeft="@dimen/activity_horizontal_margin"
-		android:paddingRight="@dimen/activity_horizontal_margin"
-		android:paddingTop="@dimen/activity_vertical_margin"
-		tools:context="com.devandroid.ncuwlogin.MainActivity">
+		android:layout_height="48dp"
+		android:background="@color/primary"
+		android:textColor="@color/white_text_secondary"
+		app:tabIndicatorColor="@color/white"
+		android:theme="@style/TabTheme"/>
 
-		<ImageView
-			android:layout_width="120dp"
-			android:layout_height="120dp"
-			android:padding="8dp"
-			android:src="@drawable/ic_main"/>
+	<FrameLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:foreground="@drawable/shadow_content_overlay">
 
-		<TextView
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:text="@string/ncuwl_login"
-			android:textAppearance="?android:attr/textAppearanceMedium"
-			android:textStyle="bold"/>
-
-		<EditText
-			android:id="@+id/editText_user"
+		<android.support.v4.view.ViewPager
+			android:id="@+id/pager_main"
 			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="16dp"
-			android:ems="10"
-			android:hint="@string/username"
-			android:inputType="textEmailAddress"
-			android:imeOptions="actionNext"/>
-
-		<EditText
-			android:id="@+id/editText_password"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:ems="10"
-			android:hint="@string/password"
-			android:inputType="textPassword"
-			android:imeOptions="actionSend"/>
-
-		<Button
-			android:id="@+id/button_login"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/save_and_login"/>
-
-		<Button
-			android:id="@+id/button_logout"
-			android:layout_width="match_parent"
-			android:layout_height="wrap_content"
-			android:text="@string/logout"/>
-
-		<TextView
-			android:id="@+id/textView_debug"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:padding="8dp"
-			android:visibility="gone"/>
-
-	</LinearLayout>
-</ScrollView>
+			android:layout_height="match_parent"
+			tools:layout="@layout/fragment_ncuwl"/>
+	</FrameLayout>
+</LinearLayout>
