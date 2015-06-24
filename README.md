@@ -1,11 +1,7 @@
 NCU-WLAN-Login
 ==============
 
-This is an Android app that detects NCUWL Wi-Fi hotspot connection and login automatically.
-
-Required Libraries
---
-`android.support.v7.appcompat`
+This app detects connections to NCU Wi-Fi hotspots and login automatically.
 
 License
 --
