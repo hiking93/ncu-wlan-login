@@ -77,7 +77,7 @@ public class NCUWLFragment extends Fragment implements View.OnClickListener {
 		if (v == mLoginButton) {
 			saveAndLogin();
 		} else if (v == mLogoutButton) {
-			LoginHelper.logout(mMainActivity, new GeneralCallback() {
+			LoginHelper.logoutNCUWL(mMainActivity, new GeneralCallback() {
 
 				@Override
 				public void onSuccess() {

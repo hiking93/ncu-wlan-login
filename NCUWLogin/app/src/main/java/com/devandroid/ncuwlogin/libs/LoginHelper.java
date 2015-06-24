@@ -16,6 +16,7 @@ import com.loopj.android.http.AsyncHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 
 import org.apache.http.Header;
+import org.apache.http.conn.ssl.SSLSocketFactory;
 
 public class LoginHelper {
 
@@ -23,18 +24,8 @@ public class LoginHelper {
 		UNKNOWN, NCUWLAN, NCUCSIE
 	}
 
-	private static AsyncHttpClient mClient = init();
-
 	private static NotificationManager mNotificationManager;
 	private static NotificationCompat.Builder mBuilder;
-
-	private static AsyncHttpClient init() {
-		AsyncHttpClient client = new AsyncHttpClient();
-		client.addHeader("Connection", "Keep-Alive");
-		client.setTimeout(30000);
-		client.setEnableRedirects(false);
-		return client;
-	}
 
 	public static HotspotType getHotspotType(@Nullable String ssid) {
 		if (ssid != null) {
@@ -52,8 +43,28 @@ public class LoginHelper {
 		}
 	}
 
+	private static AsyncHttpClient getClient() {
+		return getClient(null);
+	}
+
+	private static AsyncHttpClient getClient(SSLSocketFactory customSSLSocketFactory) {
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.setTimeout(30000);
+		client.setEnableRedirects(false);
+		if (customSSLSocketFactory != null) {
+			client.setSSLSocketFactory(customSSLSocketFactory);
+		}
+		return client;
+	}
+
 	public static void login(final Context context, String url, RequestParams requestParams,
 	                         final GeneralCallback callback) {
+		login(context, url, requestParams, callback, null);
+	}
+
+	public static void login(final Context context, String url, RequestParams requestParams,
+	                         final GeneralCallback callback,
+	                         SSLSocketFactory customSSLSocketFactory) {
 		String currentSsid = Utils.getCurrentSsid(context);
 		HotspotType hotspotType = getHotspotType(currentSsid);
 
@@ -76,7 +87,8 @@ public class LoginHelper {
 				.setSmallIcon(R.drawable.ic_stat_login).setProgress(0, 0, true).setOngoing(true);
 		mNotificationManager.notify(Constant.NOTIFICATION_LOGIN_ID, mBuilder.build());
 
-		mClient.post(context, url, requestParams, new AsyncHttpResponseHandler() {
+		AsyncHttpClient client = getClient(customSSLSocketFactory);
+		client.post(context, url, requestParams, new AsyncHttpResponseHandler() {
 
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, byte[] response) {
@@ -145,7 +157,7 @@ public class LoginHelper {
 		});
 	}
 
-	public static void logout(final Context context, final GeneralCallback callback) {
+	public static void logoutNCUWL(final Context context, final GeneralCallback callback) {
 		String currentSsid = Utils.getCurrentSsid(context);
 		HotspotType hotspotType = getHotspotType(currentSsid);
 
@@ -160,7 +172,8 @@ public class LoginHelper {
 			return;
 		}
 
-		mClient.post("https://securelogin.arubanetworks.com/cgi-bin/login?cmd=logout",
+		AsyncHttpClient client = getClient();
+		client.post("https://securelogin.arubanetworks.com/cgi-bin/login?cmd=logout",
 				new AsyncHttpResponseHandler() {
 
 					@Override

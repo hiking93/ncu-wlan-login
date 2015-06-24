@@ -17,9 +17,16 @@ import android.widget.TextView;
 import com.devandroid.ncuwlogin.callbacks.Constant;
 import com.devandroid.ncuwlogin.callbacks.GeneralCallback;
 import com.devandroid.ncuwlogin.callbacks.Memory;
+import com.devandroid.ncuwlogin.libs.IgnoreSSLSocketFactory;
 import com.devandroid.ncuwlogin.libs.LoginHelper;
 import com.devandroid.ncuwlogin.libs.Utils;
 import com.loopj.android.http.RequestParams;
+
+import java.security.KeyManagementException;
+import java.security.KeyStore;
+import java.security.KeyStoreException;
+import java.security.NoSuchAlgorithmException;
+import java.security.UnrecoverableKeyException;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
@@ -128,7 +135,15 @@ public class NCUCSIEFragment extends Fragment implements View.OnClickListener {
 
 		String url = "https://10.115.50.254";
 
-		LoginHelper.login(context, url, params, callback);
+		IgnoreSSLSocketFactory factory = null;
+		try {
+			KeyStore keyStore = KeyStore.getInstance(KeyStore.getDefaultType());
+			factory = new IgnoreSSLSocketFactory(keyStore);
+		} catch (NoSuchAlgorithmException | KeyManagementException | KeyStoreException | UnrecoverableKeyException e) {
+			e.printStackTrace();
+		}
+
+		LoginHelper.login(context, url, params, callback, factory);
 	}
 
 	private void showMessage(int messageRes) {
