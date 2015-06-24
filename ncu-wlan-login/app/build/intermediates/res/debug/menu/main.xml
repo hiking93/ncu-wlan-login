@@ -1,0 +1,11 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.sparkslab.ncuwlogin.MainActivity" >
+
+    <item
+        android:id="@+id/about"
+        android:title="@string/about">
+    </item>
+
+</menu><!-- From: file:/Users/hiking/Documents/Program%20Design/Git/ncu-wlan-login/ncu-wlan-login/app/src/main/res/menu/main.xml -->
