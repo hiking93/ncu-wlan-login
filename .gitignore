@@ -1,3 +1,5 @@
+*.iml
+
 #built application files
 *.apk
 *.ap_
@@ -26,6 +28,8 @@ Thumbs.db
 .project
 
 # Android Studio
-NCUWLogin/.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
-NCUWLogin/.gradle
-NCUWLogin/build/
+*.iml
+.idea
+#.idea/workspace.xml - remove # and delete .idea if it better suit your needs.
+.gradle
+build/
