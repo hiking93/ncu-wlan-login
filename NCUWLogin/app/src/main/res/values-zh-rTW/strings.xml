@@ -28,4 +28,10 @@
 	<string name="ncuwl_login">中央大學無線網路登入</string>
 	<string name="ncucsie_login">中央資工無線網路登入</string>
 
+	<string-array name="ncucsie_type">
+		<item>資工系帳號</item>
+		<item>計中帳號</item>
+		<item>校際漫遊帳號</item>
+	</string-array>
+
 </resources>

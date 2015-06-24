@@ -8,14 +8,17 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.devandroid.ncuwlogin.callbacks.Constant;
 import com.devandroid.ncuwlogin.callbacks.GeneralCallback;
 import com.devandroid.ncuwlogin.callbacks.Memory;
 import com.devandroid.ncuwlogin.libs.LoginHelper;
+import com.devandroid.ncuwlogin.libs.Utils;
 import com.loopj.android.http.RequestParams;
 
 import butterknife.ButterKnife;
@@ -26,12 +29,14 @@ public class NCUCSIEFragment extends Fragment implements View.OnClickListener {
 	@InjectView(R.id.button_login) Button mLoginButton;
 	@InjectView(R.id.editText_user) EditText mUsernameEditText;
 	@InjectView(R.id.editText_password) EditText mPasswordEditText;
+	@InjectView(R.id.spinner_type) Spinner mTypeSpinner;
 	@InjectView(R.id.textView_debug) TextView mDebugTextView;
 
 	private MainActivity mMainActivity;
 
 	private static final String USER_KEY = Constant.MEMORY_KEY_CSIE_USER;
 	private static final String PASS_KEY = Constant.MEMORY_KEY_CSIE_PASSWORD;
+	private static final String TYPE_KEY = Constant.MEMORY_KEY_CSIE_TYPE;
 
 	public static NCUCSIEFragment newInstance() {
 		return new NCUCSIEFragment();
@@ -56,6 +61,13 @@ public class NCUCSIEFragment extends Fragment implements View.OnClickListener {
 
 	private void setUpViews() {
 		mLoginButton.setOnClickListener(this);
+
+		ArrayAdapter spinnerAdapter =
+				new ArrayAdapter<>(mMainActivity, R.layout.support_simple_spinner_dropdown_item,
+						getResources().getStringArray(R.array.ncucsie_type));
+		mTypeSpinner.setAdapter(spinnerAdapter);
+		mTypeSpinner.setSelection(Memory.getInt(mMainActivity, TYPE_KEY, 0));
+
 		mUsernameEditText.setText(Memory.getString(mMainActivity, USER_KEY, ""));
 		mPasswordEditText.setText(Memory.getString(mMainActivity, PASS_KEY, ""));
 		mPasswordEditText.setImeActionLabel(getText(R.string.ime_submit), KeyEvent.KEYCODE_ENTER);
@@ -77,31 +89,40 @@ public class NCUCSIEFragment extends Fragment implements View.OnClickListener {
 	}
 
 	private void saveAndLogin() {
-		String username = mUsernameEditText.getText().toString();
-		String password = mPasswordEditText.getText().toString();
-		Memory.setString(mMainActivity, USER_KEY, username);
-		Memory.setString(mMainActivity, PASS_KEY, password);
+		String ssid = Utils.getCurrentSsid(mMainActivity);
+		LoginHelper.HotspotType hotspotType = LoginHelper.getHotspotType(ssid);
+		if (hotspotType == LoginHelper.HotspotType.NCUCSIE) {
+			String username = mUsernameEditText.getText().toString();
+			String password = mPasswordEditText.getText().toString();
+			int type = mTypeSpinner.getSelectedItemPosition();
+			Memory.setString(mMainActivity, USER_KEY, username);
+			Memory.setString(mMainActivity, PASS_KEY, password);
+			Memory.setInt(mMainActivity, TYPE_KEY, type);
 
-		login(mMainActivity, new GeneralCallback() {
+			login(mMainActivity, new GeneralCallback() {
 
-			@Override
-			public void onSuccess() {
-				showMessage(R.string.login_sucessful);
-			}
+				@Override
+				public void onSuccess() {
+					showMessage(R.string.login_sucessful);
+				}
 
-			@Override
-			public void onFail(String reason) {
-				showMessage(reason);
-			}
-		});
+				@Override
+				public void onFail(String reason) {
+					showMessage(reason);
+				}
+			});
+		} else {
+			showMessage(String.format(getString(R.string.ssid_no_support), ssid));
+		}
 	}
 
 	public static void login(Context context, GeneralCallback callback) {
 		String username = Memory.getString(context, USER_KEY, "");
 		String password = Memory.getString(context, PASS_KEY, "");
+		int type = Memory.getInt(context, TYPE_KEY, 0);
 
 		RequestParams params = new RequestParams();
-		params.put("login[type]", 0);
+		params.put("login[type]", type);
 		params.put("login[username]", username);
 		params.put("login[password]", password);
 

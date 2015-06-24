@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- From: file:/Users/hiking/Documents/Program%20Design/Git/NCU-WLAN-Login/NCUWLogin/app/src/main/res/values-zh-rTW/strings.xml -->
+    <eat-comment/>
+    <string-array name="ncucsie_type">
+		<item>資工系帳號</item>
+		<item>計中帳號</item>
+		<item>校際漫遊帳號</item>
+	</string-array>
     <!-- From: file:/Users/hiking/Documents/Program%20Design/Git/NCU-WLAN-Login/NCUWLogin/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values-zh-rTW/values-zh-rTW.xml -->
     <eat-comment/>
     <string msgid="4600421777120114993" name="abc_action_bar_home_description">"瀏覽首頁"</string>

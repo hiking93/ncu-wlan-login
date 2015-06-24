@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- From: file:/Users/hiking/Documents/Program%20Design/Git/NCU-WLAN-Login/NCUWLogin/app/src/main/res/values/strings.xml -->
+    <eat-comment/>
+    <string-array name="ncucsie_type">
+		<item>CSIE account</item>
+		<item>NCU account</item>
+		<item>TANetRoaming account</item>
+	</string-array>
     <!-- From: file:/Users/hiking/Documents/Program%20Design/Git/NCU-WLAN-Login/NCUWLogin/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values/values.xml -->
     <eat-comment/>
     <attr format="reference" name="drawerArrowStyle"/>
@@ -351,7 +358,6 @@
 		<item name="colorPrimary">@color/primary</item>
 		<item name="colorPrimaryDark">@color/primary_dark</item>
 		<item name="colorAccent">@color/accent</item>
-		<item name="actionBarStyle">@style/NoShadowActionBar</item>
 	</style>
     <!-- From: file:/Users/hiking/Documents/Program%20Design/Git/NCU-WLAN-Login/NCUWLogin/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/22.2.0/res/values/values.xml -->
     <eat-comment/>
@@ -1283,6 +1289,9 @@
     </style>
     <!-- From: file:/Users/hiking/Documents/Program%20Design/Git/NCU-WLAN-Login/NCUWLogin/app/src/main/res/values/styles.xml -->
     <eat-comment/>
+    <style name="NoActionBarShadowAppTheme" parent="AppTheme">
+		<item name="actionBarStyle">@style/NoShadowActionBar</item>
+	</style>
     <style name="NoShadowActionBar" parent="style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
 		<item name="elevation">0dp</item>
 		<item name="android:windowContentOverlay">@null</item>

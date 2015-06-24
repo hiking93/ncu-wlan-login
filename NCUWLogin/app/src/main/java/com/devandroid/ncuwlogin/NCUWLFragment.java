@@ -16,6 +16,7 @@ import com.devandroid.ncuwlogin.callbacks.Constant;
 import com.devandroid.ncuwlogin.callbacks.GeneralCallback;
 import com.devandroid.ncuwlogin.callbacks.Memory;
 import com.devandroid.ncuwlogin.libs.LoginHelper;
+import com.devandroid.ncuwlogin.libs.Utils;
 import com.loopj.android.http.RequestParams;
 
 import butterknife.ButterKnife;
@@ -92,23 +93,29 @@ public class NCUWLFragment extends Fragment implements View.OnClickListener {
 	}
 
 	private void saveAndLogin() {
-		String username = mUsernameEditText.getText().toString();
-		String password = mPasswordEditText.getText().toString();
-		Memory.setString(mMainActivity, USER_KEY, username);
-		Memory.setString(mMainActivity, PASS_KEY, password);
+		String ssid = Utils.getCurrentSsid(mMainActivity);
+		LoginHelper.HotspotType hotspotType = LoginHelper.getHotspotType(ssid);
+		if (hotspotType == LoginHelper.HotspotType.NCUWLAN) {
+			String username = mUsernameEditText.getText().toString();
+			String password = mPasswordEditText.getText().toString();
+			Memory.setString(mMainActivity, USER_KEY, username);
+			Memory.setString(mMainActivity, PASS_KEY, password);
 
-		login(mMainActivity, new GeneralCallback() {
+			login(mMainActivity, new GeneralCallback() {
 
-			@Override
-			public void onSuccess() {
-				showMessage(R.string.login_sucessful);
-			}
+				@Override
+				public void onSuccess() {
+					showMessage(R.string.login_sucessful);
+				}
 
-			@Override
-			public void onFail(String reason) {
-				showMessage(reason);
-			}
-		});
+				@Override
+				public void onFail(String reason) {
+					showMessage(reason);
+				}
+			});
+		} else {
+			showMessage(String.format(getString(R.string.ssid_no_support), ssid));
+		}
 	}
 
 	public static void login(Context context, GeneralCallback callback) {

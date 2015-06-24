@@ -8,8 +8,8 @@ import butterknife.ButterKnife.Injector;
 public class AboutActivity$$ViewInjector<T extends com.devandroid.ncuwlogin.AboutActivity> implements Injector<T> {
   @Override public void inject(final Finder finder, final T target, Object source) {
     View view;
-    view = finder.findRequiredView(source, 2131296358, "field 'mMainListView'");
-    target.mMainListView = finder.castView(view, 2131296358, "field 'mMainListView'");
+    view = finder.findRequiredView(source, 2131361894, "field 'mMainListView'");
+    target.mMainListView = finder.castView(view, 2131361894, "field 'mMainListView'");
   }
 
   @Override public void reset(T target) {

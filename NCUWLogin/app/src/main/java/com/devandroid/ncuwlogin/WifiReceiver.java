@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.devandroid.ncuwlogin.callbacks.Constant;
 import com.devandroid.ncuwlogin.libs.LoginHelper;
+import com.devandroid.ncuwlogin.libs.Utils;
 
 public class WifiReceiver extends BroadcastReceiver {
 
@@ -24,7 +25,7 @@ public class WifiReceiver extends BroadcastReceiver {
 			NetworkInfo.State state = networkInfo.getState();
 
 			if (state == NetworkInfo.State.CONNECTED) {
-				String ssid = manager.getConnectionInfo().getSSID().replace("\"", "");
+				String ssid = Utils.getCurrentSsid(context);
 				LoginHelper.HotspotType hotspotType = LoginHelper.getHotspotType(ssid);
 
 				if (hotspotType != LoginHelper.HotspotType.UNKNOWN) {
