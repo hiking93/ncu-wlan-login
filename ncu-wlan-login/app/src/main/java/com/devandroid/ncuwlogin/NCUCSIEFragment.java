@@ -133,7 +133,7 @@ public class NCUCSIEFragment extends Fragment implements View.OnClickListener {
 		params.put("login[username]", username);
 		params.put("login[password]", password);
 
-		String url = "https://10.115.50.254";
+		String url = "http://10.115.51.254/";
 
 		IgnoreSSLSocketFactory factory = null;
 		try {
