@@ -34,7 +34,7 @@
 		<item>TANetRoaming account</item>
 	</string-array>
 
-	<string name="lorem_title">Lorem ipsum</string>
-	<string name="lorem_sentence">Lorem ipsum dolor sit amet.</string>
+	<string name="lorem_title" translatable="false">Lorem ipsum</string>
+	<string name="lorem_sentence" translatable="false">Lorem ipsum dolor sit amet.</string>
 
 </resources>
