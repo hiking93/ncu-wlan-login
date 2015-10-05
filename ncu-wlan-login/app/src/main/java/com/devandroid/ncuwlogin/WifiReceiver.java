@@ -28,6 +28,10 @@ public class WifiReceiver extends BroadcastReceiver {
 				String ssid = Utils.getCurrentSsid(context);
 				LoginHelper.HotspotType hotspotType = LoginHelper.getHotspotType(ssid);
 
+				if (hotspotType == null) {
+					return;
+				}
+
 				if (hotspotType != LoginHelper.HotspotType.UNKNOWN) {
 					String infoString =
 							String.format(context.getString(R.string.connected_to_ssid), ssid);
@@ -42,9 +46,7 @@ public class WifiReceiver extends BroadcastReceiver {
 						NCUCSIEFragment.login(context, null);
 						break;
 				}
-			}
-
-			if (state == NetworkInfo.State.DISCONNECTED) {
+			} else if (state == NetworkInfo.State.DISCONNECTED) {
 				if (manager.isWifiEnabled()) {
 					// disconnected
 					String infoString = "Wi-Fi disconnected.";
