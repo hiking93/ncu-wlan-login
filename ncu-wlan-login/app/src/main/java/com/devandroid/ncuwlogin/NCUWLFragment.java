@@ -2,7 +2,6 @@ package com.devandroid.ncuwlogin;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.devandroid.ncuwlogin.callbacks.Constant;
@@ -19,16 +19,17 @@ import com.devandroid.ncuwlogin.libs.LoginHelper;
 import com.devandroid.ncuwlogin.libs.Utils;
 import com.loopj.android.http.RequestParams;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class NCUWLFragment extends Fragment implements View.OnClickListener {
 
-	@InjectView(R.id.button_login) Button mLoginButton;
-	@InjectView(R.id.button_logout) Button mLogoutButton;
-	@InjectView(R.id.editText_user) EditText mUsernameEditText;
-	@InjectView(R.id.editText_password) EditText mPasswordEditText;
-	@InjectView(R.id.textView_debug) TextView mDebugTextView;
+	@Bind(R.id.button_login) Button mLoginButton;
+	@Bind(R.id.button_logout) Button mLogoutButton;
+	@Bind(R.id.editText_user) EditText mUsernameEditText;
+	@Bind(R.id.editText_password) EditText mPasswordEditText;
+	@Bind(R.id.progressBar_login) ProgressBar mProgressBar;
+	@Bind(R.id.textView_debug) TextView mDebugTextView;
 
 	private MainActivity mMainActivity;
 
@@ -39,12 +40,11 @@ public class NCUWLFragment extends Fragment implements View.OnClickListener {
 		return new NCUWLFragment();
 	}
 
-	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_ncuwl, container, false);
-		ButterKnife.inject(this, view);
+		ButterKnife.bind(this, view);
 
 		initValues();
 		setUpViews();
@@ -101,6 +101,7 @@ public class NCUWLFragment extends Fragment implements View.OnClickListener {
 			Memory.setString(mMainActivity, USER_KEY, username);
 			Memory.setString(mMainActivity, PASS_KEY, password);
 
+			setOnProgress(true);
 			login(mMainActivity, new GeneralCallback() {
 
 				@Override
@@ -131,14 +132,18 @@ public class NCUWLFragment extends Fragment implements View.OnClickListener {
 		LoginHelper.login(context, url, params, callback);
 	}
 
+	private void setOnProgress(boolean onProgress) {
+		mDebugTextView.setVisibility(View.GONE);
+		mProgressBar.setVisibility(onProgress ? View.VISIBLE : View.GONE);
+	}
+
 	private void showMessage(int messageRes) {
-		mDebugTextView.setVisibility(View.VISIBLE);
-		mDebugTextView.setText(getText(messageRes));
+		showMessage(getText(messageRes));
 	}
 
 	private void showMessage(CharSequence message) {
+		setOnProgress(false);
 		mDebugTextView.setVisibility(View.VISIBLE);
 		mDebugTextView.setText(message);
 	}
-
 }

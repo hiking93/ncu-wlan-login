@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<string name="app_name">中央大學無線網路自動登入</string>
-	<string name="app_name_launcher">登入中大</string>
+	<string name="app_name">中大快登</string>
+	<string name="app_name_launcher">中大快登</string>
 	<string name="username">帳號</string>
 	<string name="password">密碼</string>
 	<string name="save_and_login">儲存並登入</string>

@@ -6,8 +6,8 @@
 	<LinearLayout
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
-		android:animateLayoutChanges="true"
 		android:layout_gravity="center"
+		android:animateLayoutChanges="true"
 		android:gravity="center"
 		android:orientation="vertical"
 		android:paddingBottom="@dimen/activity_vertical_margin"
@@ -36,8 +36,8 @@
 			android:layout_marginTop="16dp"
 			android:ems="10"
 			android:hint="@string/username"
-			android:inputType="textEmailAddress"
-			android:imeOptions="actionNext"/>
+			android:imeOptions="actionNext"
+			android:inputType="textEmailAddress"/>
 
 		<EditText
 			android:id="@+id/editText_password"
@@ -45,8 +45,8 @@
 			android:layout_height="wrap_content"
 			android:ems="10"
 			android:hint="@string/password"
-			android:inputType="textPassword"
-			android:imeOptions="actionSend"/>
+			android:imeOptions="actionSend"
+			android:inputType="textPassword"/>
 
 		<Spinner
 			android:id="@+id/spinner_type"
@@ -59,12 +59,28 @@
 			android:layout_height="wrap_content"
 			android:text="@string/save_and_login"/>
 
-		<TextView
-			android:id="@+id/textView_debug"
+		<LinearLayout
 			android:layout_width="wrap_content"
 			android:layout_height="wrap_content"
-			android:padding="8dp"
-			android:visibility="gone"/>
+			android:animateLayoutChanges="true"
+			android:gravity="center"
+			android:padding="8dp">
 
+			<ProgressBar
+				android:id="@+id/progressBar_login"
+				style="?android:attr/progressBarStyleSmall"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:visibility="gone"
+				tools:visibility="visible"/>
+
+			<TextView
+				android:id="@+id/textView_debug"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:visibility="gone"
+				tools:text="@string/lorem_sentence"
+				tools:visibility="visible"/>
+		</LinearLayout>
 	</LinearLayout>
 </ScrollView>

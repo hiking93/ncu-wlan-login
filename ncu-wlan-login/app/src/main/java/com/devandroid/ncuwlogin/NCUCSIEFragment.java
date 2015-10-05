@@ -2,7 +2,6 @@ package com.devandroid.ncuwlogin;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -11,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -28,16 +28,17 @@ import java.security.KeyStoreException;
 import java.security.NoSuchAlgorithmException;
 import java.security.UnrecoverableKeyException;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 public class NCUCSIEFragment extends Fragment implements View.OnClickListener {
 
-	@InjectView(R.id.button_login) Button mLoginButton;
-	@InjectView(R.id.editText_user) EditText mUsernameEditText;
-	@InjectView(R.id.editText_password) EditText mPasswordEditText;
-	@InjectView(R.id.spinner_type) Spinner mTypeSpinner;
-	@InjectView(R.id.textView_debug) TextView mDebugTextView;
+	@Bind(R.id.button_login) Button mLoginButton;
+	@Bind(R.id.editText_user) EditText mUsernameEditText;
+	@Bind(R.id.editText_password) EditText mPasswordEditText;
+	@Bind(R.id.spinner_type) Spinner mTypeSpinner;
+	@Bind(R.id.progressBar_login) ProgressBar mProgressBar;
+	@Bind(R.id.textView_debug) TextView mDebugTextView;
 
 	private MainActivity mMainActivity;
 
@@ -49,12 +50,11 @@ public class NCUCSIEFragment extends Fragment implements View.OnClickListener {
 		return new NCUCSIEFragment();
 	}
 
-	@Nullable
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 	                         Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.fragment_ncucsie, container, false);
-		ButterKnife.inject(this, view);
+		ButterKnife.bind(this, view);
 
 		initValues();
 		setUpViews();
@@ -106,6 +106,7 @@ public class NCUCSIEFragment extends Fragment implements View.OnClickListener {
 			Memory.setString(mMainActivity, PASS_KEY, password);
 			Memory.setInt(mMainActivity, TYPE_KEY, type);
 
+			setOnProgress(true);
 			login(mMainActivity, new GeneralCallback() {
 
 				@Override
@@ -146,14 +147,18 @@ public class NCUCSIEFragment extends Fragment implements View.OnClickListener {
 		LoginHelper.login(context, url, params, callback, factory);
 	}
 
+	private void setOnProgress(boolean onProgress) {
+		mDebugTextView.setVisibility(View.GONE);
+		mProgressBar.setVisibility(onProgress ? View.VISIBLE : View.GONE);
+	}
+
 	private void showMessage(int messageRes) {
-		mDebugTextView.setVisibility(View.VISIBLE);
-		mDebugTextView.setText(getText(messageRes));
+		showMessage(getText(messageRes));
 	}
 
 	private void showMessage(CharSequence message) {
+		setOnProgress(false);
 		mDebugTextView.setVisibility(View.VISIBLE);
 		mDebugTextView.setText(message);
 	}
-
 }
