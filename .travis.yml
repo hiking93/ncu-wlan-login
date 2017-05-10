@@ -10,3 +10,5 @@ android:
     # System images to run emulator during tests
     - sys-img-armeabi-v7a-android-22
     - sys-img-armeabi-v7a-android-17
+before_install:
+    - chmod +x gradlew
