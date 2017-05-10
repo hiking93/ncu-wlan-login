@@ -12,5 +12,9 @@ android:
     # System images to run emulator during tests
     - sys-img-armeabi-v7a-android-22
     - sys-img-armeabi-v7a-android-17
+licenses:
+    - 'android-sdk-preview-license-.+'
+    - 'android-sdk-license-.+'
+    - 'google-gdk-license-.+'
 before_install:
     - chmod +x gradlew
