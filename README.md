@@ -1,5 +1,6 @@
 NCU-WLAN-Login
 ==============
+[![Build Status](https://travis-ci.org/hiking93/NCU-WLAN-Login.svg?branch=master)](https://travis-ci.org/hiking93/NCU-WLAN-Login)
 
 This app detects connections to NCU Wi-Fi hotspots and login automatically.
 
