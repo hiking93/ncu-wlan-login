@@ -2,12 +2,12 @@ package com.devandroid.ncuwlogin;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
+import com.google.android.material.tabs.TabLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentPagerAdapter;
+import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -90,9 +90,9 @@ public class MainActivity extends AppCompatActivity {
 		public Fragment getItem(int position) {
 			switch (position) {
 				case 0:
-					return NCUWLFragment.newInstance();
+					return NcuwlFragment.newInstance();
 				case 1:
-					return NCUCSIEFragment.newInstance();
+					return NcuCsieFragment.newInstance();
 				default:
 					Log.e(Constant.TAG, "Unexpected ViewPager item position: " + position);
 					return new Fragment();

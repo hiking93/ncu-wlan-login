@@ -40,10 +40,10 @@ public class WifiReceiver extends BroadcastReceiver {
 
 				switch (hotspotType) {
 					case NCUWLAN:
-						NCUWLFragment.login(context, null);
+						NcuwlFragment.login(context, null);
 						break;
 					case NCUCSIE:
-						NCUCSIEFragment.login(context, null);
+						NcuCsieFragment.login(context, null);
 						break;
 				}
 			} else if (state == NetworkInfo.State.DISCONNECTED) {
