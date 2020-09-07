@@ -7,8 +7,8 @@ android {
         applicationId "com.devandroid.ncuwlogin"
         minSdkVersion 14
         targetSdkVersion 30
-        versionCode = "7"
-        versionName = "2.2"
+        versionCode = "8"
+        versionName = "2.2.1"
     }
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
