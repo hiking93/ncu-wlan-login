@@ -1,119 +1,148 @@
 package com.devandroid.ncuwlogin;
 
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import com.google.android.material.tabs.TabLayout;
+import android.view.Menu;
+import android.view.MenuItem;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.viewpager.widget.ViewPager;
-import androidx.appcompat.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 
-import com.devandroid.ncuwlogin.callbacks.Constant;
+import com.google.android.material.tabs.TabLayout;
+
+import butterknife.BindView;
+import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity {
 
-	private ViewPager mViewPager;
+    private static final int REQUEST_CODE_LOCATION = 100;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+    @BindView((R.id.toolbar))
+    Toolbar mToolbar;
+    @BindView((R.id.tabs_main))
+    TabLayout mTabLayout;
+    @BindView(R.id.pager_main)
+    ViewPager mViewPager;
 
-		findViews();
-		setUpViews();
-	}
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.bind(this);
 
-	private void findViews() {
-		mViewPager = (ViewPager) findViewById(R.id.pager_main);
-	}
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            setUpViews();
+        } else {
+            ActivityCompat.requestPermissions(
+                    this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    REQUEST_CODE_LOCATION
+            );
+        }
+    }
 
-	private void setUpViews() {
-		MainPagerAdapter mQLPagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
-		mViewPager.setAdapter(mQLPagerAdapter);
+    @Override
+    public void onRequestPermissionsResult(
+            int requestCode,
+            @NonNull String[] permissions,
+            @NonNull int[] grantResults
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            setUpViews();
+        } else {
+            finish();
+        }
+    }
 
-		TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs_main);
-		tabLayout.setTabMode(TabLayout.MODE_FIXED);
-		tabLayout.setTabsFromPagerAdapter(mQLPagerAdapter);
-		tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+    private void setUpViews() {
+        setSupportActionBar(mToolbar);
 
-			@Override
-			public void onTabSelected(TabLayout.Tab tab) {
-				mViewPager.setCurrentItem(tab.getPosition());
-			}
+        MainPagerAdapter pagerAdapter = new MainPagerAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(pagerAdapter);
 
-			@Override
-			public void onTabUnselected(TabLayout.Tab tab) {
-			}
+        mTabLayout.setTabMode(TabLayout.MODE_FIXED);
+        mTabLayout.setupWithViewPager(mViewPager);
+        mTabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
-			@Override
-			public void onTabReselected(TabLayout.Tab tab) {
-			}
-		});
-		mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-	}
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                mViewPager.setCurrentItem(tab.getPosition());
+            }
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
-	}
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
 
-	@Override
-	public boolean onOptionsItemSelected(MenuItem item) {
-		int id = item.getItemId();
-		switch (id) {
-			case R.id.about:
-				startActivity(new Intent(this, AboutActivity.class));
-				return true;
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
+        });
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));
+    }
 
-			default:
-				return super.onOptionsItemSelected(item);
-		}
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
 
-	}
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        switch (id) {
+            case R.id.about:
+                startActivity(new Intent(this, AboutActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
-	private class MainPagerAdapter extends FragmentPagerAdapter {
+    private static class MainPagerAdapter extends FragmentPagerAdapter {
 
-		public MainPagerAdapter(FragmentManager fragmentManager) {
-			super(fragmentManager);
-		}
+        public MainPagerAdapter(FragmentManager fragmentManager) {
+            super(fragmentManager);
+        }
 
-		public String getFragmentTag(int position) {
-			return "android:switcher:" + R.id.pager_main + ":" + position;
-		}
+        @NonNull
+        @Override
+        public Fragment getItem(int position) {
+            switch (position) {
+                case 0:
+                    return NcuwlFragment.newInstance();
+                case 1:
+                    return NcuCsieFragment.newInstance();
+                default:
+                    throw new IllegalStateException("Unexpected ViewPager item position: " + position);
+            }
+        }
 
-		@Override
-		public Fragment getItem(int position) {
-			switch (position) {
-				case 0:
-					return NcuwlFragment.newInstance();
-				case 1:
-					return NcuCsieFragment.newInstance();
-				default:
-					Log.e(Constant.TAG, "Unexpected ViewPager item position: " + position);
-					return new Fragment();
-			}
-		}
+        @Override
+        public int getCount() {
+            return 2;
+        }
 
-		@Override
-		public int getCount() {
-			return 2;
-		}
-
-		@Override
-		public CharSequence getPageTitle(int position) {
-			switch (position) {
-				case 0:
-					return "NCUWL";
-				case 1:
-					return "NCU-CSIE";
-				default:
-					return "?";
-			}
-		}
-	}
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "NCUWL";
+                case 1:
+                    return "NCU-CSIE";
+                default:
+                    throw new IllegalStateException("Unexpected ViewPager item position: " + position);
+            }
+        }
+    }
 }

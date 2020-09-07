@@ -1,29 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical">
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-	<com.google.android.material.tabs.TabLayout
-		android:id="@+id/tabs_main"
-		android:layout_width="match_parent"
-		android:layout_height="48dp"
-		android:background="@color/primary"
-		android:textColor="@color/white_text_secondary"
-		app:tabIndicatorColor="@color/white"
-		android:theme="@style/TabTheme"/>
+    <com.google.android.material.appbar.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-	<FrameLayout
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:foreground="@drawable/shadow_content_overlay">
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="?actionBarTheme"
+            app:popupTheme="?actionBarPopupTheme" />
 
-		<androidx.viewpager.widget.ViewPager
-			android:id="@+id/pager_main"
-			android:layout_width="match_parent"
-			android:layout_height="match_parent"
-			tools:layout="@layout/fragment_ncuwl"/>
-	</FrameLayout>
-</LinearLayout>
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabs_main"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/primary"
+            android:textColor="@color/white_text_secondary"
+            android:theme="@style/TabTheme"
+            app:tabIndicatorColor="@color/white" />
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:foreground="@drawable/shadow_content_overlay">
+
+        <androidx.viewpager.widget.ViewPager
+            android:id="@+id/pager_main"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:layout="@layout/fragment_ncuwl" />
+    </FrameLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>
